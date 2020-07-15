@@ -89,7 +89,9 @@ export default function useApplicationData() {
         const id = data.id;
         dispatch({ type: SET_INTERVIEW, id, interview })
       }
+      
     }
+    return () => ws.close()
   }, [])
 
 
