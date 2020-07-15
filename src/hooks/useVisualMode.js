@@ -15,7 +15,6 @@ export default function useVisualMode(initial) {
       }
     },
     back: function() {
-      // Might need to run a setmode
       if (history.length > 1) {
         setMode(history.pop())
       } else {

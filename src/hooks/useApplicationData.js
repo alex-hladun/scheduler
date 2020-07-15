@@ -5,25 +5,25 @@ const axios = require('axios').default;
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
-// process.env.NODE_ENV = 'development';
 const url = process.env.REACT_APP_WEBSOCKET_URL;
 const port = process.env.PORT;
-// const WebSocket = require('ws')
-
-
 
 export default function useApplicationData() {
   function reducer(state, action) {
+    console.log('reducer called', { action, state })
     switch (action.type) {
       case SET_DAY:
         return {
           ...state, day: action.value
         }
       case SET_APPLICATION_DATA:
+        console.log('SET_APPLICATION_DATA Called')
+        
         return {
           ...state, days: action.value.days, appointments: action.value.appointments, interviewers: action.value.interviewers
         }
       case SET_INTERVIEW:
+        console.log('SET_INTERVIEW Called')
         const appointment = {
           ...state.appointments[action.id],
           interview: action.interview && { ...action.interview }
@@ -69,66 +69,39 @@ export default function useApplicationData() {
     // If the interview is null and we are still in the SHOW mode then we may get a TypeError.
 
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => {
-        dispatch({ type: SET_INTERVIEW, id, interview: null })
-      })
-    //   .catch((err) => {
-    //   return err
-    // })
-
   }
 
   function bookInterview(id, interview) {
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => {
-        dispatch({ type: SET_INTERVIEW, id, interview })
-      })
-    //   .catch((err => {
-    //   return err
-    // }))
   }
 
 
   useEffect(() => {
     const ws = new WebSocket(url, port);
 
-
-    ws.onopen = function (event) {
-      ws.send("ping")
-    }
+    console.log('useEffect - Websocket - Called')
 
     ws.onmessage = function (event) {
       const data = JSON.parse(event.data)
       if (data.type === "SET_INTERVIEW") {
+        console.log("Calling setInterview from WebSocket");
         const interview = data.interview;
         const id = data.id;
-        console.log('set interview request')
-        
         dispatch({ type: SET_INTERVIEW, id, interview })
-
-
-        // dispatch({ type: SET_APPLICATION_DATA, value: { appointments: data.interview, interviewers: all[2].data } })
-
       }
-      console.log('message from server')
-      console.log(data);
     }
-
-    // ws.close()
-  })
+  }, [])
 
 
   // Initial API request to get all data
   useEffect(() => {
+    console.log('useEffect Called')
     Promise.all([axios.get('/api/days'), axios.get('/api/appointments'), axios.get('/api/interviewers')])
       .then((all) => {
         dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } })
       })
 
   }, [])
-
-
-
 
 
   return {
