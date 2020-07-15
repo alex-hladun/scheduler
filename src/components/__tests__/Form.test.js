@@ -17,12 +17,12 @@ describe("Form", () => {
     }
   ];
   
-  it("renders without student name if not provided", () => {
+  xit("renders without student name if not provided", () => {
     const { getByPlaceholderText } = render(<Form interviewers={interviewers}/>);
     expect(getByPlaceholderText("Enter Student Name")).toHaveValue("");
   });
   
-  it("renders with initial student name", () => {
+  xit("renders with initial student name", () => {
       const { getByTestId } = render(
         <Form interviewers={interviewers} name="Lydia Miller-Jones" />
       );
@@ -30,7 +30,7 @@ describe("Form", () => {
   });
 
 
-  it("validates that the student name is not blank", () => {
+  xit("validates that the student name is not blank", () => {
     /* 1. Create the mock onSave function */
     const onSave = jest.fn()
 
@@ -47,7 +47,7 @@ describe("Form", () => {
     expect(onSave).not.toHaveBeenCalled();
   });
   
-  it("calls onSave function when the name is defined", () => {
+  xit("calls onSave function when the name is defined", () => {
     /* 1. Create the mock onSave function */
     const onSave = jest.fn()
     
@@ -68,7 +68,7 @@ describe("Form", () => {
   });
 
 
-  it("submits the name entered by the user", () => {
+  xit("submits the name entered by the user", () => {
     const onSave = jest.fn();
     const { getByText, getByPlaceholderText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
@@ -83,7 +83,7 @@ describe("Form", () => {
     expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", []);
   });
 
-  it("can successfully save after trying to submit an empty student name", () => {
+  xit("can successfully save after trying to submit an empty student name", () => {
     const onSave = jest.fn();
     const { getByText, getByPlaceholderText, queryByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
@@ -106,7 +106,7 @@ describe("Form", () => {
     expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", []);
   });
 
-  it("calls onCancel and resets the input field", () => {
+  xit("calls onCancel and resets the input field", () => {
     const onCancel = jest.fn();
     const { getByText, getByPlaceholderText, queryByText } = render(
       <Form
