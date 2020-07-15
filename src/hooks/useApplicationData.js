@@ -11,8 +11,8 @@ if (process.env) {
   url = process.env.REACT_APP_WEBSOCKET_URL;
   port = process.env.PORT;
 } else {
-  url = "";
-  port = "";
+  url = "notundefined";
+  port = "8001";
 }
 
 export default function useApplicationData() {
