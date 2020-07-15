@@ -4,7 +4,7 @@ import { act, render, cleanup, getByAltText, getByPlaceholderText, getAllByTestI
 
 import Application from "components/Application";
 import axios from "axios";
-process.env.NODE_ENV = 'development';
+// process.env.NODE_ENV = 'development';
 
 
 afterEach(cleanup);
