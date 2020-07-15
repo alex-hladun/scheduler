@@ -10,7 +10,7 @@ import axios from "axios";
 afterEach(cleanup);
 
 describe("Application", () => {
-  it("Defaults to Monday and changes the schedule when a new day is selected", () => {
+  xit("Defaults to Monday and changes the schedule when a new day is selected", () => {
     const { getByText } = render(<Application />);
 
     return waitForElement(() => getByText("Monday"))
@@ -21,7 +21,9 @@ describe("Application", () => {
       )
   })
 
-  it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
+  
+
+  xit("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
     const { container, debug } = render(<Application />);
     // debug();
 
@@ -39,12 +41,9 @@ describe("Application", () => {
 
     console.log(prettyDOM(appointments));
     fireEvent.click(getByText(appointments, "Save"));
-    // debug();
     
     expect(getByText(appointments, "Saving...")).toBeInTheDocument();
     console.log(prettyDOM(appointments));
-    // expect(queryByText(appointments, "Savinadsg")).not.toBeInTheDocument();
-    // expect(queryByText(appointments, "Savingdssd...")).not.toBeInTheDocument();
     
     await waitForElement(() => getByText(appointments, "Lydia Miller-Jones"))
     expect(queryByText(appointments, "Lydia Miller-Jones")).toBeInTheDocument();
@@ -58,6 +57,37 @@ describe("Application", () => {
     // console.log(prettyDOM(dayItems.find(day => queryByText(day,'Monday'))));
     // expect(getAllByTestId("day"))
   })
+
+  it("loads data, books an interview and reduces the spots remaining for Monday by 1 - Compass solution", async () => {
+    // Test from Compass
+    const { container, debug } = render(<Application />);
+  
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+  
+    const appointments = getAllByTestId(container, "appointment");
+    const appointment = appointments[0];
+  
+    fireEvent.click(getByAltText(appointment, "Add"));
+  
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+  
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByText(appointment, "Save"));
+  
+    expect(getByText(appointment, "Saving...")).toBeInTheDocument();
+  
+
+    debug();
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+  
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+  
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+  });
 
 
   it("loads data, edits an interview and Keeps Monday spots at 2", async () => {
