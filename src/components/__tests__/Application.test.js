@@ -5,6 +5,7 @@ import { act, render, cleanup, getByAltText, getByPlaceholderText, getAllByTestI
 import Application from "components/Application";
 import axios from "axios";
 // process.env.NODE_ENV = 'TEST';
+import Server from "jest-websocket-mock";
 
 
 afterEach(cleanup);
@@ -58,7 +59,7 @@ describe("Application", () => {
     // expect(getAllByTestId("day"))
   })
 
-  it("loads data, books an interview and reduces the spots remaining for Monday by 1 - Compass solution", async () => {
+  xit("loads data, books an interview and reduces the spots remaining for Monday by 1 - Compass solution", async () => {
     // Test from Compass
     const { container, debug } = render(<Application />);
   

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { render, cleanup, fireEvent } from "@testing-library/react";
-// fireEvent.click(getByText("Save"));
 
 import Form from "components/appointment/Form";
 
