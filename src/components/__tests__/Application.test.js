@@ -4,7 +4,7 @@ import { act, render, cleanup, getByAltText, getByPlaceholderText, getAllByTestI
 
 import Application from "components/Application";
 import axios from "axios";
-// process.env.NODE_ENV = 'development';
+// process.env.NODE_ENV = 'TEST';
 
 
 afterEach(cleanup);
@@ -26,7 +26,7 @@ describe("Application", () => {
     // debug();
 
     await waitForElement(() => getByText(container, "Archie Cohen"))
-    // console.log(prettyDOM(container))
+    console.log(prettyDOM(container))
 
     // Returns an array of items matching testID
     const appointments = getAllByTestId(container, "appointment")[0];
@@ -37,16 +37,18 @@ describe("Application", () => {
 
     fireEvent.click(getByAltText(appointments, "Sylvia Palmer"));
 
+    console.log(prettyDOM(appointments));
     fireEvent.click(getByText(appointments, "Save"));
     // debug();
-
-    // console.log(prettyDOM(appointments));
+    
     expect(getByText(appointments, "Saving...")).toBeInTheDocument();
+    console.log(prettyDOM(appointments));
     // expect(queryByText(appointments, "Savinadsg")).not.toBeInTheDocument();
     // expect(queryByText(appointments, "Savingdssd...")).not.toBeInTheDocument();
-
+    
     await waitForElement(() => getByText(appointments, "Lydia Miller-Jones"))
     expect(queryByText(appointments, "Lydia Miller-Jones")).toBeInTheDocument();
+    console.log(prettyDOM(appointments));
 
 
     const dayItems = getAllByTestId(container, "day");
@@ -89,7 +91,7 @@ describe("Application", () => {
   });
 
 
-  it("loads data, deletes an interview and reduces the spots remaining for Monday by 1", async () => {
+  xit("loads data, deletes an interview and reduces the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
     const { container, debug } = render(<Application />);
 

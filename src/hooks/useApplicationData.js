@@ -5,25 +5,32 @@ const axios = require('axios').default;
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
-const url = process.env.REACT_APP_WEBSOCKET_URL;
-const port = process.env.PORT;
+let url;
+let port;
+if (process.env) {
+  url = process.env.REACT_APP_WEBSOCKET_URL;
+  port = process.env.PORT;
+} else {
+  url = "";
+  port = "";
+}
 
 export default function useApplicationData() {
   function reducer(state, action) {
-    console.log('reducer called', { action, state })
+    // console.log('reducer called', { action, state })
     switch (action.type) {
       case SET_DAY:
         return {
           ...state, day: action.value
         }
       case SET_APPLICATION_DATA:
-        console.log('SET_APPLICATION_DATA Called')
+        // console.log('SET_APPLICATION_DATA Called')
         
         return {
           ...state, days: action.value.days, appointments: action.value.appointments, interviewers: action.value.interviewers
         }
       case SET_INTERVIEW:
-        console.log('SET_INTERVIEW Called')
+        // console.log('SET_INTERVIEW Called')
         const appointment = {
           ...state.appointments[action.id],
           interview: action.interview && { ...action.interview }
@@ -79,12 +86,12 @@ export default function useApplicationData() {
   useEffect(() => {
     const ws = new WebSocket(url, port);
 
-    console.log('useEffect - Websocket - Called')
+    // console.log('useEffect - Websocket - Called')
 
     ws.onmessage = function (event) {
       const data = JSON.parse(event.data)
       if (data.type === "SET_INTERVIEW") {
-        console.log("Calling setInterview from WebSocket");
+        // console.log("Calling setInterview from WebSocket");
         const interview = data.interview;
         const id = data.id;
         dispatch({ type: SET_INTERVIEW, id, interview })
@@ -97,7 +104,7 @@ export default function useApplicationData() {
 
   // Initial API request to get all data
   useEffect(() => {
-    console.log('useEffect Called')
+    // console.log('useEffect Called')
     Promise.all([axios.get('/api/days'), axios.get('/api/appointments'), axios.get('/api/interviewers')])
       .then((all) => {
         dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } })
