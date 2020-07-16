@@ -1,6 +1,5 @@
 import React from "react";
 import "components/Button.scss";
-import { action } from '@storybook/addon-actions';
 const classNames = require('classnames');
 
 
