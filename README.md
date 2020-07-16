@@ -44,4 +44,4 @@ npm run storybook
 
 ## Known Issues
 
-* Websockets were added to the project. Due to the additions, some tests were skipped from the Application.test.js testing suite as the tests failed once the app was optimized for WebSockets.  I am currently working on tests to be able to mock the websocket and the subsequent change to the state.
+* Websockets were added to the project. Due to the additions, some tests were skipped from the Application.test.js testing suite as the tests failed once the app was optimized for WebSockets. This is because the tests rely on updating the state locally, while the websocket implementation updates the state once it receives update data from the API server. I have implemented websocket tests in useRealtimeUpdate.test.js.
