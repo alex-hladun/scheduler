@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { SET_INTERVIEW } from "reducers/application";
-export default function useRealtimeUpdate(dispatch) {
+export function useRealtimeUpdate(dispatch) {
   useEffect(() => {
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     socket.onmessage = event => {

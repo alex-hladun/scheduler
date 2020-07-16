@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, fireEvent } from "@testing-library/react";
+import { render, cleanup, fireEvent, prettyDOM } from "@testing-library/react";
 import Form from "components/appointment/Form";
 
 afterEach(cleanup);
@@ -48,40 +48,44 @@ describe("Form", () => {
     const onSave = jest.fn()
     
     /* 2. Render the Form with interviewers, name and the onSave mock function passed as an onSave prop */
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText, getByAltText } = render(
     <Form 
     name="Lydia Miller-Jones" 
     interviewers={interviewers} 
-    onSave={onSave} 
+    onSave={onSave}
+    interviewer={1}
     />)
     
     /* 3. Click the save button */
+    fireEvent.click(getByAltText("Sylvia Palmer"))
     fireEvent.click(getByText("Save"))
   
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", []);
+    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", 1);
   });
 
 
   it("submits the name entered by the user", () => {
     const onSave = jest.fn();
-    const { getByText, getByPlaceholderText } = render(
+    const { getByText, getByPlaceholderText, getByAltText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
   
     const input = getByPlaceholderText("Enter Student Name");
   
     fireEvent.change(input, { target: { value: "Lydia Miller-Jones" } });
+    fireEvent.click(getByAltText("Sylvia Palmer"))
     fireEvent.click(getByText("Save"));
+
   
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", []);
+    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", 1);
   });
 
   it("can successfully save after trying to submit an empty student name", () => {
     const onSave = jest.fn();
-    const { getByText, getByPlaceholderText, queryByText } = render(
+    const { getByText, getByPlaceholderText, queryByText, getByAltText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
   
@@ -93,13 +97,16 @@ describe("Form", () => {
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
       target: { value: "Lydia Miller-Jones" }
     });
+
+    fireEvent.click(getByAltText("Sylvia Palmer"))
+
   
     fireEvent.click(getByText("Save"));
   
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
   
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", []);
+    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", 1);
   });
 
   it("calls onCancel and resets the input field", () => {

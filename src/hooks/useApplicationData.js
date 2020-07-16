@@ -1,7 +1,7 @@
 // This file represents the top-level file which can change the state of the entire app. 
 
 import { useEffect, useReducer } from 'react';
-import { reducer, SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW } from "reducers/application";
+import  reducer, { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW } from "reducers/application";
 
 const axios = require('axios').default;
 
@@ -41,12 +41,9 @@ export default function useApplicationData() {
   useEffect(() => {
     const ws = new WebSocket(url, port);
 
-    // console.log('useEffect - Websocket - Called')
-
     ws.onmessage = function (event) {
       const data = JSON.parse(event.data)
       if (data.type === "SET_INTERVIEW") {
-        // console.log("Calling setInterview from WebSocket");
         const interview = data.interview;
         const id = data.id;
         dispatch({ type: SET_INTERVIEW, id, interview })
@@ -59,7 +56,6 @@ export default function useApplicationData() {
 
   // Initial API request to get all data
   useEffect(() => {
-    // console.log('useEffect Called')
     Promise.all([axios.get('/api/days'), axios.get('/api/appointments'), axios.get('/api/interviewers')])
       .then((all) => {
         dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } })

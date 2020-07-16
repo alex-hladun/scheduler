@@ -7,7 +7,6 @@ export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer ? props.interviewer.id : []);
   const [error, setError] = useState("");
 
-  // console.log('FORM PROPS', props)
   const reset = function() {
     setName("");
     setInterviewer(null);
@@ -22,10 +21,16 @@ export default function Form(props) {
     if (name === "") {
       setError("Student name cannot be blank");
       return;
+    } else if (!interviewer) {
+      setError("You must select an interviewer.");
+      return;
+    }
+    else if (interviewer.length === 0) {
+      setError("You must select an interviewer.");
+      return;
     } else {
       setError("")
     }
-  
     props.onSave(name, interviewer);
   }
 
