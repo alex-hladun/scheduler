@@ -31,9 +31,9 @@ jobs:
             - "83:07:99:19:3c:7d:ae:95:11:fb:b7:78:ee:18:2c:bc"
       - checkout
       - run:
-          name: Push Master to Production
+          name: Push Deployment-testing to Production
           command: |
-            git push https://github.com/alex-hladun/scheduler.git master:production
+            git push https://github.com/alex-hladun/scheduler.git deployment-testing:production
 
 workflows:
   version: 2
