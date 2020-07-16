@@ -8,7 +8,7 @@
     "normalize.css": "^8.0.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.0.0"
+    "react-scripts": "^3.4.1"
   },
   "proxy": "http://localhost:8001",
   "scripts": {
@@ -45,7 +45,7 @@
     "babel-loader": "^8.0.5",
     "jest-websocket-mock": "^2.1.0",
     "mock-socket": "^9.0.3",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.9.0"
   },
