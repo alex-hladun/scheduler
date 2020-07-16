@@ -1,10 +1,9 @@
 import React from "react";
 
-import { act, render, cleanup, getByAltText, getByPlaceholderText, getAllByTestId, waitForElement, prettyDOM, fireEvent, getByText, getAllByAltText, queryByText, getByTestId } from "@testing-library/react";
+import { render, cleanup, getByAltText, getByPlaceholderText, getAllByTestId, waitForElement, prettyDOM, fireEvent, getByText, queryByText, getByTestId } from "@testing-library/react";
 
 import Application from "components/Application";
 import axios from "axios";
-// process.env.NODE_ENV = 'TEST';
 import Server from "jest-websocket-mock";
 
 
@@ -25,11 +24,9 @@ describe("Application", () => {
   
 
   xit("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
-    const { container, debug } = render(<Application />);
-    // debug();
+    const { container } = render(<Application />);
 
     await waitForElement(() => getByText(container, "Archie Cohen"))
-    console.log(prettyDOM(container))
 
     // Returns an array of items matching testID
     const appointments = getAllByTestId(container, "appointment")[0];
@@ -40,23 +37,17 @@ describe("Application", () => {
 
     fireEvent.click(getByAltText(appointments, "Sylvia Palmer"));
 
-    console.log(prettyDOM(appointments));
     fireEvent.click(getByText(appointments, "Save"));
     
     expect(getByText(appointments, "Saving...")).toBeInTheDocument();
-    console.log(prettyDOM(appointments));
     
     await waitForElement(() => getByText(appointments, "Lydia Miller-Jones"))
     expect(queryByText(appointments, "Lydia Miller-Jones")).toBeInTheDocument();
-    console.log(prettyDOM(appointments));
 
 
     const dayItems = getAllByTestId(container, "day");
     const monday = dayItems.find(day => queryByText(day, 'Monday'))
     expect(queryByText(monday, "no spots remaining")).toBeInTheDocument();
-
-    // console.log(prettyDOM(dayItems.find(day => queryByText(day,'Monday'))));
-    // expect(getAllByTestId("day"))
   })
 
   xit("loads data, books an interview and reduces the spots remaining for Monday by 1 - Compass solution", async () => {
@@ -93,7 +84,7 @@ describe("Application", () => {
 
   it("loads data, edits an interview and Keeps Monday spots at 2", async () => {
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -118,13 +109,12 @@ describe("Application", () => {
     // 7. Compare the value of spots remaining to equal 1.
     const monday = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"))
     expect(queryByText(monday, "1 spot remaining")).toBeInTheDocument();
-    // console.log('PRETTYDOM', prettyDOM(monday));
   });
 
 
   xit("loads data, deletes an interview and reduces the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -161,11 +151,10 @@ describe("Application", () => {
   it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
 
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
     // debug();
 
     await waitForElement(() => getByText(container, "Archie Cohen"))
-    // console.log(prettyDOM(container))
 
     // Returns an array of items matching testID
     const appointment = getAllByTestId(container, "appointment")[0];
@@ -178,7 +167,6 @@ describe("Application", () => {
     fireEvent.click(getByText(appointment, "Save"));
     // Check that the put fails within Axios
     await waitForElement(() => getByText(appointment, /There was an error while saving!/i))
-    // console.log(prettyDOM(appointment))
     expect(getByText(appointment, /There was an error while saving!/i)).toBeInTheDocument();
   });
 
@@ -208,7 +196,6 @@ describe("Application", () => {
 
 
     await waitForElement(() => getByText(appointment, /There was an error while saving!/i))
-    // console.log(prettyDOM(appointment))
     expect(getByText(appointment, /There was an error while saving!/i)).toBeInTheDocument();
 });
 
