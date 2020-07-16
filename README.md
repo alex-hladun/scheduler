@@ -22,6 +22,8 @@ This project uses ReactJS on the front-end and Node, Express, PosgreSQL, Axios, 
 
 Clone the repository, then install dependencies with `npm install`.
 
+Note - In order to properly book and have interviews saved, the Scheduler API must also be installed from https://github.com/lighthouse-labs/scheduler-api and a posgreSQL database must be set up either locally on an hosted service.
+
 ## Running The App (Webpack Development Server)
 
 ```sh
