@@ -45,7 +45,7 @@
     "babel-loader": "^8.0.5",
     "jest-websocket-mock": "^2.1.0",
     "mock-socket": "^9.0.3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.9.0"
   },
